@@ -194,3 +194,60 @@
             </build>
         </profile>
 ```
+
+## JPA model documentation
+```xml
+        <profile>
+            <id>site</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>xml-maven-plugin</artifactId>
+                        <version>1.0.1</version>
+                        <executions>
+                            <execution>
+                                <phase>pre-site</phase>
+                                <goals>
+                                    <goal>transform</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <transformationSets>
+                                <transformationSet>
+                                    <dir>${basedir}/src/main/resources/META-INF</dir>
+                                    <includes>
+                                        <include>model.jpa</include>
+                                    </includes>
+                                    <stylesheet>${basedir}/src/site/jpa_stylesheets/jpa_documentation.xsl</stylesheet>
+                                    <parameters>
+                                        <parameter>
+                                            <name>lang</name>
+                                            <value>ru</value>
+                                        </parameter>
+                                    </parameters>
+                                    <outputDir>${basedir}/src/site/xhtml</outputDir>
+                                    <fileMappers>
+                                        <fileMapper implementation="org.codehaus.plexus.components.io.filemappers.FileExtensionMapper">
+                                            <targetExtension>.xhtml</targetExtension>
+                                        </fileMapper>
+                                    </fileMappers>
+                                </transformationSet>
+                            </transformationSets>
+                        </configuration>
+                        <dependencies>
+                            <dependency>
+                                <groupId>net.sf.saxon</groupId>
+                                <artifactId>saxon</artifactId>
+                                <version>8.7</version>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+```
