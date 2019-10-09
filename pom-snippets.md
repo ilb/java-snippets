@@ -147,3 +147,50 @@
             </build>
         </profile>
 ```
+
+### Jpa model gen
+```xml
+        <profile>
+            <!-- requires: switch to system maven in netbeans, repalce common-jpa-jaxb with common-jpa, remove com.sun.xml.internal.bind from package-info.java -->
+            <id>modelgen</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.bsc.maven</groupId>
+                        <artifactId>maven-processor-plugin</artifactId>
+                        <version>3.2.0</version>
+                        <executions>
+                            <execution>
+                                <id>eclipselink-jpa-metamodel</id>
+                                <goals>
+                                    <goal>process</goal>
+                                </goals>
+                                <phase>process-resources</phase>
+                                <configuration>
+                                    <processors>
+                                        <processor>org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor</processor>
+                                    </processors>
+                                    <appendSourceArtifacts>true</appendSourceArtifacts>
+                                    <processSourceArtifacts>
+                                        <processSourceArtifact>ru.ilb.common:common-jpa</processSourceArtifact>
+                                    </processSourceArtifacts>
+                                    <outputDirectory>${project.build.directory}/generated-sources/meta-model</outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.eclipse.persistence</groupId>
+                                <artifactId>org.eclipse.persistence.jpa.modelgen.processor</artifactId>
+                                <version>${eclipselink.version}</version>
+                                <scope>compile</scope>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+```
