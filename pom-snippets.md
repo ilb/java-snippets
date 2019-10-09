@@ -80,6 +80,7 @@
     </profiles>    
 ```
 ## Schemagen (classes to xsd)
+
 ```xml
         <profile>
             <id>schemagen</id>
@@ -149,6 +150,7 @@
 ```
 
 ### Jpa model gen
+
 ```xml
         <profile>
             <!-- requires: switch to system maven in netbeans, repalce common-jpa-jaxb with common-jpa, remove com.sun.xml.internal.bind from package-info.java -->
@@ -196,6 +198,7 @@
 ```
 
 ## JPA model documentation
+
 ```xml
         <profile>
             <id>site</id>
@@ -246,6 +249,50 @@
                                 <version>8.7</version>
                             </dependency>
                         </dependencies>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+```
+
+## Java classes to WADL
+
+```xml
+        <profile>
+            <id>java2wadl</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.cxf</groupId>
+                        <artifactId>cxf-java2wadl-plugin</artifactId>
+                        <version>${apache-cxf.version}</version>
+                        <executions>
+                            <execution>
+                                <id>parsejavadoc</id>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>parsejavadoc</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>process-classes</id>
+                                <phase>process-classes</phase>
+                                <goals>
+                                    <goal>java2wadl</goal>
+                                </goals>
+                                <configuration>
+                                    <classResourceNames>
+                                        <classResourceName>ru.ilb.jparestresource.web.DocumentsResourceImpl</classResourceName>
+                                        <classResourceName>ru.ilb.jparestresource.web.Heartbeat</classResourceName>
+                                    </classResourceNames>
+                                    <docProvider>org.apache.cxf.maven_plugin.javatowadl.ResourceMapJavaDocProvider</docProvider>
+                                    <attachWadl>true</attachWadl>
+                                </configuration>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>
