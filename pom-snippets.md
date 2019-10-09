@@ -79,3 +79,71 @@
         </profile>
     </profiles>    
 ```
+## Schemagen (classes to xsd)
+```xml
+        <profile>
+            <id>schemagen</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>jaxb2-maven-plugin</artifactId>
+                        <version>2.3.1</version>
+                        <executions>
+                            <execution>
+                                <id>schemagen</id>
+                                <goals>
+                                    <goal>schemagen</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <sources>
+                                <source>${basedir}/src/main/java/ru/ilb/jparestresource/model</source>
+                            </sources>
+                            <schemaSourceExcludeFilters>
+                                <noJaxbIndex implementation="org.codehaus.mojo.jaxb2.shared.filters.pattern.PatternFileFilter">
+                                    <patterns>
+                                        <pattern>package-info\.java</pattern>
+                                    </patterns>
+                                </noJaxbIndex>
+                            </schemaSourceExcludeFilters>
+                            <transformSchemas>
+                                <transformSchema>
+                                    <uri>urn:ru:ilb:jparestresource:model</uri>
+                                    <toPrefix>model</toPrefix>
+                                    <toFile>model.xsd</toFile>
+                                </transformSchema>
+                            </transformSchemas>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.google.code.maven-replacer-plugin</groupId>
+                        <artifactId>replacer</artifactId>
+                        <version>1.5.3</version>
+                        <executions>
+                            <execution>
+                                <id>replace_Relation</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>replace</goal>
+                                </goals>
+                                <configuration>
+                                    <file>${basedir}/target/generated-resources/schemagen/model.xsd</file>
+                                    <replacements>
+                                        <replacement>
+                                            <token>xs:</token>
+                                            <value>xsd:</value>
+                                        </replacement>
+                                    </replacements>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+```
