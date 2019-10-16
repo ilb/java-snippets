@@ -287,26 +287,25 @@ cacheBuilder, cacheManager от guava заменить на
             
 Spring Boot
 
-Настроить файлы
+Настроить файлы resources:
 
-resources:
-application.properties
-swagger.properties
-
-
-classes: 
-Application
-ServletInitializer
+1. application.properties
+2. swagger.properties
 
 
-web.xml
+Настроить файлы classes: 
+1. Application
+2. ServletInitializer
+
+
+Настроить файл web.xml
 
 закомментировть 
 
-1.context-param
-2.listener
-3.servlet
-4.servlet-mapping
+1. context-param
+2. listener
+3. servlet
+4. servlet-mapping
 
 
 beans.xml
